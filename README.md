@@ -73,7 +73,7 @@ Ef villur koma í ljós gæti verið að:
 
 ## 📝 Athugasemdir
 
-Notast var við Postman til að sannreyna verkefni.
+Notast var við Postman til að sannreyna verkefni. \n
 Search virkar bara á recipes vegna misskilnings þegar verkefni var gert.
 EXPECTED_RESPONSES.md biður um `GET /api/recipes?q=pasta`. Það virkar fyrir það. 
 
