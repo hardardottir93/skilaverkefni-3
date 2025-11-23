@@ -4,16 +4,6 @@
 
 ---
 
-## 🔧 Keyrsla verkefnis
-
-Keyrðu verkefnið með:
-
-```
-npm run dev
-```
-
----
-
 ## 📦 Uppsetning
 
 ### 1. Klóna verkefnið
@@ -60,7 +50,7 @@ Gert t.d. í pgAdmin:
 
 ---
 
-## ▶️ Keyra verkefnið
+## ▶️ Keyra verkefnið 🔧
 
 ```bash
 npm run dev
