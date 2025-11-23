@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { createCuisine, deleteCuisine, findCuisineByName, getAllCuisines, getCuisineById, updateCuisine } from '../models/cuisineModel';
 
-export const getCuisines = async (req: Request, res: Response): Promise<void> => {
+export const getAllCuisinesController = async (req: Request, res: Response): Promise<void> => {
   try {
     const cuisines = await getAllCuisines();
     res.json(cuisines);
@@ -11,7 +11,7 @@ export const getCuisines = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-export const getOneCuisine = async (req: Request, res: Response): Promise<void> => {
+export const getCuisineByIdController = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = parseInt(req.params.id);
     const cuisines = await getCuisineById(id);
@@ -24,17 +24,14 @@ export const getOneCuisine = async (req: Request, res: Response): Promise<void> 
 };
 
 
-
 export const createCuisineController = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name } = req.body;
-    const cuisine = { name };
-    console.log(name);
+    
     if (!name) {
       res.status(400).json({ error: 'Name is required' });
       return;
     }
-    console.log(name);
     const existing = await findCuisineByName(name);
     if (existing) {
       res.status(400).json({
@@ -44,7 +41,7 @@ export const createCuisineController = async (req: Request, res: Response): Prom
       return;
     }
 
-    const newCuisine = await createCuisine(cuisine);
+    const newCuisine = await createCuisine({ name });
 
     res.status(201).json(newCuisine);
 
@@ -53,6 +50,7 @@ export const createCuisineController = async (req: Request, res: Response): Prom
     res.status(500).json({ error: 'Failed to create cuisine' });
   }
 };
+
 
 export const updateCuisineController = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -77,6 +75,7 @@ export const updateCuisineController = async (req: Request, res: Response): Prom
   }
 };
 
+
 export const deleteCuisineController = async (req: Request, res: Response): Promise<void> => {
   try {
     const id = parseInt(req.params.id);
@@ -91,32 +90,9 @@ export const deleteCuisineController = async (req: Request, res: Response): Prom
       return;
     }
 
-    res.json({ message: 'Cuisine deleted successfully', movie: deletedCuisine });
+    res.status(204).json();
   } catch (error) {
     console.error('Error deleting Cuisine:', error);
     res.status(500).json({ error: 'Failed to delete cuisine' });
   }
 };
-
-
-// Ekki tilbúið
-/*export const getRecipesByCuisine = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) {
-      res.status(400).json({ error: 'Invalid cuisine ID' });
-      return;
-    }
-
-    const cuisine = await getRecipesByCuisine(id);
-    if (!movie) {
-      res.status(404).json({ error: 'Movie not found' });
-      return;
-    }
-
-    res.json(movie);
-  } catch (error) {
-    console.error('Error fetching movie:', error);
-    res.status(500).json({ error: 'Failed to fetch movie' });
-  }
-};*/

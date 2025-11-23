@@ -9,8 +9,10 @@ export const getAllCuisines = async (): Promise<Cuisine[]> => {
   return await db.query('SELECT * FROM cuisines');
 };
 
-export const getCuisineById = async (id: number): Promise<Cuisine[]> => {
-  return await db.query('SELECT * FROM cuisines WHERE id = $1', [id]);
+export const getCuisineById = async (id: number): Promise<Cuisine | null> => {
+  return await db.oneOrNone('SELECT * FROM cuisines WHERE id = $1', 
+    [id]
+  );
 };
 
 
@@ -21,11 +23,6 @@ export const findCuisineByName = async (name: string): Promise<Cuisine | null> =
   ); 
 };
 
-//Þarf að breyta - gera JOIN og skila Recipes
-export const getRecipesByCuisine = async (id: number): Promise< Cuisine| null> => {
-  return await db.oneOrNone('SELECT * FROM cuisines WHERE id = $1', [id]);
-};
-
 export const createCuisine = async (cuisine: Cuisine): Promise<Cuisine> => {
   return await db.one(
     'INSERT INTO cuisines (name) VALUES ($1) RETURNING *',
@@ -34,7 +31,7 @@ export const createCuisine = async (cuisine: Cuisine): Promise<Cuisine> => {
 };
 
 export const deleteCuisine = async (id: number): Promise<Cuisine | null> => {
-  return await db.oneOrNone('DELETE FROM cuisine WHERE id = $1 RETURNING *', [id]);
+  return await db.oneOrNone('DELETE FROM cuisines WHERE id = $1 RETURNING *', [id]);
 };
 
 export const updateCuisine = async (id: number, cuisine: Partial<Cuisine>): Promise<Cuisine | null> => {

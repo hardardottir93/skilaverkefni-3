@@ -1,14 +1,15 @@
 import express from 'express';
-import { getRecipesByCuisine } from '../models/cuisineModel';
-import { createCuisineController, deleteCuisineController, getCuisines, updateCuisineController } from '../controllers/cuisineController';
+import { createRecipeController, deleteRecipeController, getRecipeByIdController, getRecipesOrSearchController, updateRecipeController } from '../controllers/recipeController';
+import { validate, validateParams } from '../middleware/validate';
+import { CreateRecipeSchema, RecipeIdParams, UpdateRecipeSchema } from '../schemas/recipeSchema';
+
 const router = express.Router();
 
-//Ekki rétt, á eftir að uppfæra
+router.get('/', getRecipesOrSearchController);
+router.get('/:id', getRecipeByIdController);
+router.post('/', validate(CreateRecipeSchema), createRecipeController);
+router.put('/:id', validate(UpdateRecipeSchema), updateRecipeController);
+router.delete('/:id', validateParams(RecipeIdParams), deleteRecipeController);
 
-router.get('/', getCuisines);
-router.get('/:id/recipes', getRecipesByCuisine);
-router.post('/', createCuisineController);
-router.put('/:id', updateCuisineController);
-router.delete('/:id', deleteCuisineController);
 
 export default router;
